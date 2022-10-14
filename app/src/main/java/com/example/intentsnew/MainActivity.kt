@@ -3,33 +3,46 @@ package com.example.intentsnew
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import com.example.intentsnew.model.User
 
 class MainActivity : AppCompatActivity() {
     private var isFinish = false
+    private lateinit var textView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.textView)
+        val editName: EditText = findViewById(R.id.editTextTextPersonName)
+        val editLastName: EditText = findViewById(R.id.editTextTextPersonName2)
+        val editAge: EditText = findViewById(R.id.editTextTextPersonName3)
         val button: Button = findViewById(R.id.button)
+        textView = findViewById(R.id.textView)
 
-        button.setOnLongClickListener {
-            val user = User(id = 1, name = "Kotlinjon", lastName = "Androidov", age = 10)
+        button.setOnClickListener {
+            val name = editName.text.toString().trim()
+            val lastName = editLastName.text.toString().trim()
+            val age = editAge.text.toString().trim()
+            val user = User(name, lastName, age.toInt())
+            val bundle = bundleOf("user" to user)
             val intent = Intent(this, SecondActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable("user", user)
             intent.putExtras(bundle)
-            startActivity(intent)
-            true
+            registerActivity.launch(intent)
         }
     }
+
+    private val registerActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == 100) {
+                val user = it?.data?.getParcelableExtra<User>("user1")!!
+                textView.text = "${user.name}\n${user.lastName}\n${user.age}"
+            }
+        }
 
     override fun onBackPressed() {
 //        if (isFinish) {

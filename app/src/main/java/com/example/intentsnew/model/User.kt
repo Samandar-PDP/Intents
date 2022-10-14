@@ -1,12 +1,11 @@
 package com.example.intentsnew.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class User(
     val name: String,
     val lastName: String,
-    val age: Int,
-    val id: Int
-): Serializable
-// Serializable
-// Parcelable
+    val age: Int
+): Parcelable
