@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.intentsnew.model.User
 
 class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,14 +15,9 @@ class SecondActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.btnBack)
         val textView: TextView = findViewById(R.id.textView2)
-        val imageView: ImageView = findViewById(R.id.imageView)
-        val text = intent.getStringExtra("name")
-        val text2 = intent.getStringExtra("name1")
-        val float = intent.getFloatExtra("float", 0f)
-        val image = intent.getIntExtra("image", -1)
-        textView.text = "$text\n$text2\n$float"
 
-        imageView.setImageResource(image)
+        val user = intent.getSerializableExtra("user") as User
+        textView.text = "${user.id}\n${user.name}\n${user.lastName}\n${user.age}"
 
         button.setOnClickListener {
             // onBackPressed()

@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import com.example.intentsnew.model.User
 
 class MainActivity : AppCompatActivity() {
     private var isFinish = false
@@ -19,12 +21,11 @@ class MainActivity : AppCompatActivity() {
         val button: Button = findViewById(R.id.button)
 
         button.setOnLongClickListener {
+            val user = User(id = 1, name = "Kotlinjon", lastName = "Androidov", age = 10)
             val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("name", "Android Development")
-            intent.putExtra("name1", "IOS Development")
-            intent.putExtra("int", 10)
-            intent.putExtra("float", 4f)
-            intent.putExtra("image", R.drawable.img)
+            val bundle = Bundle()
+            bundle.putSerializable("user", user)
+            intent.putExtras(bundle)
             startActivity(intent)
             true
         }
@@ -53,3 +54,9 @@ class MainActivity : AppCompatActivity() {
         }.create().show()
     }
 }
+//           val bundle1 = bundleOf("name" to "Android Development", )
+//            val bundle2 = bundleOf("int" to 10)
+//            val bundleAll = Bundle()
+//            bundleAll.putAll(bundle2)
+//            bundleAll.putAll(bundle1)
+//            intent.putExtras(bundleAll)
